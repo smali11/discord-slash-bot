@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in · Slash-Command Bot</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="login-wrap">
+    <form class="login-card" id="login-form">
+      <div class="brand" style="margin-bottom:20px;"><span class="dot"></span> Slash-Command Bot</div>
+      <h1>Admin sign in</h1>
+      <p class="sub">The dashboard is restricted to the configured admin account.</p>
+      <label class="field">
+        <span>Username</span>
+        <input type="text" id="username" autocomplete="username" required autofocus />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="password" autocomplete="current-password" required />
+      </label>
+      <button class="btn" type="submit" style="width:100%; justify-content:center;" id="submit">Sign in</button>
+      <p class="error-text" id="error" style="margin-top:14px; display:none;"></p>
+    </form>
+  </div>
+  <script>
+    const form = document.getElementById('login-form');
+    const errEl = document.getElementById('error');
+    const btn = document.getElementById('submit');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
+          }),
+        });
+        if (res.ok) {
+          window.location.href = '/';
+          return;
+        }
+        const data = await res.json().catch(() => ({}));
+        errEl.textContent = data.error || 'Sign in failed';
+        errEl.style.display = 'block';
+      } catch (err) {
+        errEl.textContent = 'Network error — is the server running?';
+        errEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>

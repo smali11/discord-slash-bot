@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · Slash-Command Bot</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="dot"></span> Slash-Command Bot</div>
+    <div class="topbar-right">
+      <span id="who"></span>
+      <button class="btn secondary small" id="logout">Log out</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="overview" class="active">Overview</button>
+    <button data-tab="log">Command Log</button>
+    <button data-tab="config">Configuration</button>
+  </nav>
+
+  <main>
+    <!-- OVERVIEW -->
+    <section class="panel active" id="panel-overview">
+      <div class="cards" id="overview-cards"></div>
+
+      <div class="section-title">Connected servers <span class="hint">servers where the bot has run at least once, or that you've connected</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Server</th><th>Post channel</th><th>Mirror</th><th>Commands</th><th>Failed</th><th>Last activity</th></tr></thead>
+          <tbody id="servers-body"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">Connect a server <span class="hint">add the bot, then pick where it posts and mirrors</span></div>
+      <div class="card">
+        <p class="muted" style="margin-top:0;">1. Add the bot to your Discord server, then 2. pick channels below.</p>
+        <div class="row" style="align-items:flex-end;">
+          <a class="btn secondary" id="invite-btn" target="_blank" rel="noopener">➕ Add bot to a server</a>
+          <button class="btn secondary" id="load-guilds">🔄 Load my servers</button>
+        </div>
+        <div id="connect-area" style="margin-top:16px;"></div>
+      </div>
+    </section>
+
+    <!-- COMMAND LOG -->
+    <section class="panel" id="panel-log">
+      <div class="row" style="align-items:flex-end; margin-bottom:16px;">
+        <label class="field" style="margin:0;"><span>Server</span><select id="log-guild"><option value="">All servers</option></select></label>
+        <label class="field" style="margin:0;"><span>Status</span>
+          <select id="log-status">
+            <option value="">All</option>
+            <option value="completed">Completed</option>
+            <option value="failed">Failed</option>
+            <option value="processing">Processing</option>
+          </select>
+        </label>
+        <label class="inline" style="flex:0 0 auto; margin-bottom:2px;"><input type="checkbox" id="autorefresh" checked /> Auto-refresh</label>
+        <button class="btn secondary" id="refresh-log" style="flex:0 0 auto;">Refresh now</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time</th><th>Server</th><th>Command</th><th>User</th><th>Input</th><th>Triage</th><th>Status</th><th></th></tr></thead>
+          <tbody id="log-body"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section class="panel" id="panel-config">
+      <label class="field" style="max-width:320px;"><span>Server</span><select id="config-guild"></select></label>
+      <div id="config-area"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
