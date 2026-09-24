@@ -47,7 +47,7 @@ async function fetchWithTimeout(url, options, timeoutMs) {
 }
 
 async function callGemini(text) {
-  const model = config.ai.model || 'gemini-2.0-flash';
+  const model = config.ai.model || 'gemini-flash-lite-latest';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(config.ai.apiKey)}`;
   const res = await fetchWithTimeout(
     url,
